@@ -1,0 +1,204 @@
+{% extends 'owner/base.html' %}
+{% load static %}
+
+{% block title  %}
+Dashboard
+{% endblock %}
+
+{% block content %}
+{% include 'partials/_messages.html' %}
+<!-- Sale & Revenue Start -->
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                <div class="ms-3">
+                    <p class="mb-2">Drivers</p>
+                    <h6 class="mb-0">{{drivers}}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                <div class="ms-3">
+                    <p class="mb-2">Total Travel</p>
+                    <h6 class="mb-0">R {{transamt}}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                <div class="ms-3">
+                    <p class="mb-2">Registered Users</p>
+                    <h6 class="mb-0">{{passengers}}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                <div class="ms-3">
+                    <p class="mb-2">Total Hirings</p>
+                    <h6 class="mb-0">R {{hireamt}}</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Sale & Revenue End -->
+
+
+<div class="container-fluid pt-4 px-4">
+
+    <div class="bg-secondary text-center rounded p-4">
+
+        <div class="d-flex align-items-center justify-content-between mb-4">
+
+            <h6 class="mb-0">Available Routes</h6>
+            <a href="{% url 'all-dest'%}">Show All</a>
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table text-start align-middle table-bordered table-hover mb-0">
+
+                <thead>
+
+                <tr class="text-white">
+
+                    <th scope="col">Code</th>
+
+                    <th scope="col">From</th>
+
+                    <th scope="col">To</th>
+
+                    <th scope="col">Driver</th>
+
+                    <th scope="col">Taxi</th>
+
+                    <th scope="col">Action</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for route in routes %}
+
+                <tr>
+
+                    <td>{{route.ride_no}}</td>
+
+                    <td>{{route.d_from}}</td>
+
+                    <td>{{route.d_to}}</td>
+
+                    <td>{{route.driver_no}}</td>
+
+                    <td>{{route.taxi}}</td>
+
+                    <td><a class="btn btn-sm btn-primary" href="{% url 'view-route' route.id %}">View</a></td>
+
+                </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+<!-- Widgets Start -->
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12 col-md-6 col-xl-6">
+            <div class="h-100 bg-secondary rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <h6 class="mb-0">Hiring Requests</h6>
+                    <a href="{% url 'hire-requests' %}">Show All</a>
+                </div>
+                {% if hireRequests %}
+                <div class="d-flex align-items-center border-bottom py-3">
+                    {% for hireRequest in hireRequests %}
+                    <img class="rounded-circle flex-shrink-0" src="{{ hireRequest.passenger.img.url}}" alt="" style="width: 40px; height: 40px;">
+                    <div class="w-100 ms-3">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-0">{{hireRequest.passenger.user.first_name}} {{hireRequest.passenger.user.last_name}}</h6>
+                            <small>Created: {{hireRequest.date}}</small>
+                        </div>
+                        <span>For: {{hireRequest.For}}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="d-flex align-items-center border-bottom py-3">
+                    <div class="w-100 ms-3">
+                        <h6 class="text-body mb-0">No hiring request made.</h6>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-xl-6">
+            <div class="h-100 bg-secondary rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h6 class="mb-0">To Do List</h6>
+                    <a href="{% url 'todolist' %}">Show All</a>
+                </div>
+                <form action="{% url 'dashboard' %}" method="post">
+                    {% csrf_token %}
+                <div class="d-flex mb-2">
+                    <input class="form-control bg-dark border-0" name="task" type="text" placeholder="Enter task">
+                    <button type="submit" class="btn btn-primary ms-2">Add</button>
+                </div>
+                </form>
+                {% if todolist %}
+                {% for todo in todolist %}
+                {% if todo.status == "Not Done" %}
+                <div class="d-flex align-items-center border-bottom py-2">
+                    <div class="w-100 ms-3">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <span>{{todo.task}}</span>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="d-flex align-items-center border-bottom py-2">
+                    <div class="w-100 ms-3">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <span><del>{{todo.task}}</del></span>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+                {% else %}
+                <div class="d-flex align-items-center border-bottom py-2">
+                    <div class="w-100 ms-3">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <span>No items in To Do List</span>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Widgets End -->
+
+
+</div>
+
+<!-- Back to Top -->
+<!-- <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+</div>-->
+
+
+{% endblock %}

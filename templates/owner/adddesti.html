@@ -1,0 +1,54 @@
+{% extends 'owner/base.html' %}
+{% load static %}
+
+{% block title  %}
+Add route
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-secondary text-center rounded p-4">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+
+            <h6 class="mb-0">Add Route</h6>
+
+        </div>
+<form action="{% url 'add-destination' %}" method="post">
+    {% csrf_token %}
+    {% include 'partials/_messages.html' %}
+    <div class="form-floating mb-3">
+        <select name="from" class="form-select" id="floatingSelect"
+                aria-label="Floating label select example">
+            {% for destination in destinations %}
+            <option>{{destination.name}}</option>
+            {% endfor %}
+        </select>
+        <label for="floatingSelect">From</label>
+    </div>
+
+    <div class="form-floating mb-3">
+        <select name="to" class="form-select" id="floatingSelect"
+                aria-label="Floating label select example">
+            {% for destination in destinations %}
+            <option>{{destination.name}}</option>
+            {% endfor %}
+        </select>
+        <label for="floatingSelect">To</label>
+    </div>
+
+    <div class="form-floating mb-3">
+        <select name="driver" class="form-select" id="floatingSelect"
+                aria-label="Floating label select example">
+            {% for driver in drivers %}
+            <option>{{driver.username}} - {{driver.first_name}} {{driver.last_name}}</option>
+            {% endfor %}
+        </select>
+        <label for="floatingSelect">Driver</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Add</button>
+</form>
+</div>
+</div>
+
+{% endblock %}

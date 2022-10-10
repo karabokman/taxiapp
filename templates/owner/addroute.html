@@ -1,0 +1,34 @@
+{% extends 'owner/base.html' %}
+{% load static %}
+
+{% block title  %}
+Add Destination
+{% endblock %}
+
+{% block content %}
+
+<div class="bg-secondary rounded p-4 p-sm-5 my-4 mx-3">
+<form action="{% url 'add-route' %}" method="post">
+    {% csrf_token %}
+    {% include 'partials/_messages.html' %}
+        <div class="d-flex align-items-center justify-content-between mb-4">
+
+            <h6 class="mb-0">Add A Destination</h6>
+
+        </div>
+
+    <div class="form-floating mb-3">
+
+        <input type="text" name="place" class="form-control" id="floatingText" placeholder="jhondoe" required>
+
+        <label for="floatingText">Destination</label>
+
+    </div>
+
+    <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Add</button>
+</form>
+</div>
+
+
+
+{% endblock %}

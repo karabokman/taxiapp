@@ -1,0 +1,81 @@
+{% extends 'passenger/base.html' %}
+{% load static %}
+
+{% block title  %}
+My Profile
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-secondary rounded p-4">
+        <dl class="row mb-0">
+            <dt class="col-sm-4">Passenger Number</dt>
+            <dd class="col-sm-8">{{passenger.passenger_no}}</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="bg-secondary rounded p-4 p-sm-5 my-4 mx-3">
+<form action="{% url 'profile' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% include 'partials/_messages.html' %}
+    <div class="mb-3">
+        <label for="formFile" class="form-label">Profile image</label>
+        <div>
+        <img width="120" height="120" src="{{passenger.img.url}}"/>
+        </div>
+        <input class="form-control bg-dark" name="image" type="file" id="formFile">
+    </div>
+    <div class="form-floating mb-3">
+
+        <input type="text" value="{{user.first_name}}" name="name" class="form-control" id="floatingText" placeholder="jhondoe" required>
+
+        <label for="floatingText">Name</label>
+
+    </div>
+
+    <div class="form-floating mb-3">
+
+        <input type="text" value="{{user.last_name}}" name="surname" class="form-control" id="floatingText" placeholder="jhondoe" required>
+
+        <label for="floatingText">Surname</label>
+
+    </div>
+
+    <div class="form-floating mb-3">
+
+        <input type="email" value="{{user.email}}" name="email" class="form-control" id="floatingInput" placeholder="name@example.com" required>
+
+        <label for="floatingInput">Email address</label>
+
+    </div>
+
+    <div class="form-floating mb-3">
+
+        <input type="text" value="{{passenger.p_contacts}}" name="pcontact" class="form-control" id="floatingText" placeholder="076-------" required>
+
+        <label for="floatingText">Personal Number</label>
+
+    </div>
+
+    <div class="form-floating mb-3">
+
+        <input type="text" value="{{passenger.contact_person}}" name="contact-person" class="form-control" id="floatingText" placeholder="076-------" required>
+
+        <label for="floatingText">Contact Person</label>
+
+    </div>
+
+    <div class="form-floating mb-3">
+
+        <input type="text" value="{{passenger.e_contacts}}" name="econtact" class="form-control" id="floatingText" placeholder="076-------" required>
+
+        <label for="floatingText">Emergency Number</label>
+
+    </div>
+
+    <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Save</button>
+</form>
+</div>
+
+{% endblock %}

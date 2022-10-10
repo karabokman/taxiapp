@@ -1,0 +1,167 @@
+{% extends 'owner/base.html' %}
+{% load static %}
+
+{% block title  %}
+View Taxis
+{% endblock %}
+
+{% block content %}
+{% include 'partials/_messages.html' %}
+<div class="container-fluid pt-4 px-4">
+
+        <div class="d-flex align-items-center justify-content-between mb-4">
+
+            <a href="#" class="">
+
+                <h3 class="text-primary">Taxis</h3>
+
+            </a>
+
+            <a class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">ADD</a>
+        </div>
+</div>
+
+
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="bg-secondary rounded modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Add Taxi</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+      		<!-- Modal body -->
+      		<div class="modal-body">
+                <div class="list-group">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {% include 'partials/_messages.html' %}
+                    <div class="form-floating mb-3">
+
+                        <input type="text" name="numplate" class="form-control" id="floatingText" placeholder="jhondoe" required>
+
+                        <label for="floatingText">Number Plate</label>
+
+                   </div>
+                    <div class="form-floating mb-3">
+
+                        <input type="text" name="model" class="form-control" id="floatingText" placeholder="jhondoe" required>
+
+                        <label for="floatingText">Model</label>
+
+                   </div>
+                    <div class="form-floating mb-3">
+
+                        <input type="text"  name="color" class="form-control" id="floatingText" placeholder="jhondoe" required>
+
+                        <label for="floatingText">Color</label>
+
+                   </div>
+                    <div class="form-floating mb-3">
+
+                        <input type="number"  name="numseats" class="form-control" id="floatingText" placeholder="jhondoe" required>
+
+                        <label for="floatingText">Number of Seats</label>
+
+                   </div>
+                    <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Add</button>
+                    </form>
+                </div>
+      		</div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="container-fluid pt-4 px-4">
+
+    <div class="bg-secondary text-center rounded p-4">
+
+        <div class="d-flex align-items-center justify-content-between mb-4">
+
+            <h6 class="mb-0">Registered Taxis</h6>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table text-start align-middle table-bordered table-hover mb-0">
+
+                <thead>
+
+                <tr class="text-white">
+
+                    <th scope="col">Number Plate</th>
+
+                    <th scope="col">Model</th>
+
+                    <th scope="col">Number of Seats</th>
+
+                    <th scope="col">Color</th>
+
+                    <th scope="col">Action</th>
+
+                </tr>
+
+                </thead>
+                {% if page_obj %}
+
+                <tbody>
+                {% for taxi in page_obj %}
+                <tr>
+
+                    <td>{{taxi.no_plate}}</td>
+
+                    <td>{{taxi.model}}</td>
+
+                    <td>{{taxi.seats}}</td>
+
+                    <td>{{taxi.color}}</td>
+
+                    <td><a class="btn btn-sm btn-primary" href="{% url 'edit-taxi' taxi.id %}">Edit</a></td>
+
+                </tr>
+                {% endfor %}
+
+                </tbody>
+                {% else %}
+                <tr>
+                    <td>No taxis found</td>
+                </tr>
+                {% endif %}
+
+            </table>
+
+        </div>
+
+        <div class="d-flex align-items-center justify-content-between mb-4 p-3">
+            <div class="text-white">
+            Showing page {{page_obj.number}} of {{page_obj.paginator.num_pages}}
+            </div>
+            <ul class="pagination align-end float-end mr-auto">
+            {% if page_obj.has_previous %}
+            <li {% if page_obj.number == 1 %} class="page-item active" {% endif %}><a class="page-link" href="?page=1">&laquo; 1</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{page_obj.previous_page_number}}">Previous</a></li>
+            {% endif %}
+
+            {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{page_obj.next_page_number}}">Next</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{page_obj.paginator.num_pages}}">{{page_obj.paginator.num_pages}} &raquo;</a></li>
+            {% endif %}
+            </ul>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

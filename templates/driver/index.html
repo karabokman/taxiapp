@@ -1,0 +1,154 @@
+{% extends 'driver/base.html' %}
+{% load static %}
+
+{% block title  %}
+    Home Page
+{% endblock %}
+
+{% block content %}
+{% include 'partials/_messages.html' %}
+<div class="container-fluid pt-4 px-4">
+    <div class="rounded">
+<div class="bg-secondary rounded accordion-item">
+    <h4 class="accordion-header" id="headingTwo">
+        <button class="bg-secondary text-white accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                On Going
+        </button>
+    </h4>
+    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+            {% if ongoings %}
+                    {% for ongoing in ongoings %}
+                    <a href="{% url 'manage-route' ongoing.id %}">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 align-items-center justify-content-between">
+                                <span class="text-white btn btn-outline-light">{{ongoing.ride_no}}  -  {{ongoing.d_from}}   -  {{ongoing.d_to}}</span>
+                                <a href="{% url 'mark-route' ongoing.id %}" class="btn btn-outline-success">Done</a>
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                    {% else %}
+                    <div class="d-flex align-items-center border-bottom py-2">
+                            <div class="w-100 ms-3">
+                                <div class="d-flex w-100 align-items-center justify-content-between">
+                                    <span class="text-white">No record found</span>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+
+<!-- Driver Info Start -->
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl-6">
+    <div class="bg-secondary rounded p-4">
+        <h6 class="mb-4">Driver Information</h6>
+        <dl class="row mb-0">
+            <dt class="col-sm-4">Driver Number</dt>
+            <dd class="col-sm-8">{{driver.user.username}}</dd>
+            <dt class="col-sm-4">Name</dt>
+            <dd class="col-sm-8">{{driver.user.first_name}}</dd>
+            <dt class="col-sm-4">Surname</dt>
+            <dd class="col-sm-8">{{driver.user.last_name}}</dd>
+            <dt class="col-sm-4">Personal Number</dt>
+            <dd class="col-sm-8">{{driver.contacts}}</dd>
+        </dl>
+    </div>
+    </div>
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-secondary rounded p-4">
+                <h6 class="mb-4">Taxi Information</h6>
+        <dl class="row mb-0">
+            {% if driver.taxi %}
+            <dt class="col-sm-4">Number Plate</dt>
+            <dd class="col-sm-8">{{driver.taxi.no_plate}}</dd>
+            <dt class="col-sm-4">Model</dt>
+            <dd class="col-sm-8">{{driver.taxi.model}}</dd>
+            <dt class="col-sm-4">Color</dt>
+            <dd class="col-sm-8">{{driver.taxi.color}}</dd>
+            <dt class="col-sm-4">Number of Seats</dt>
+            <dd class="col-sm-8">{{driver.taxi.seats}}</dd>
+            {% endif %}
+        </dl>
+    </div>
+    </div>
+</div>
+</div>
+<!-- Driver Info End -->
+
+<!-- Recent destinations Start -->
+
+<div class="container-fluid pt-4 px-4">
+
+    <div class="bg-secondary text-center rounded p-4">
+
+        <div class="d-flex align-items-center justify-content-between mb-4">
+
+            <h6 class="mb-0">Available Routes</h6>
+            <a href="{% url 'all-routes'%}">Show All</a>
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table text-start align-middle table-bordered table-hover mb-0">
+
+                <thead>
+
+                <tr class="text-white">
+
+                    <th scope="col">Code</th>
+
+                    <th scope="col">From</th>
+
+                    <th scope="col">To</th>
+
+                    <th scope="col">Driver</th>
+
+                    <th scope="col">Taxi</th>
+
+                    <th scope="col">Action</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for route in routes %}
+
+                <tr>
+
+                    <td>{{route.ride_no}}</td>
+
+                    <td>{{route.d_from}}</td>
+
+                    <td>{{route.d_to}}</td>
+
+                    <td>{{route.driver_no}}</td>
+
+                    <td>{{route.taxi}}</td>
+
+                    <td><a class="btn btn-sm btn-primary" href="{% url 'manage-route' route.id %}">View</a></td>
+
+                </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Recent destinations End -->
+
+{% endblock %}

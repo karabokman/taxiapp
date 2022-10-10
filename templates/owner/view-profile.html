@@ -1,0 +1,38 @@
+{% extends 'owner/base.html' %}
+{% load static %}
+
+{% block title  %}
+Employee Stats
+{% endblock %}
+
+{% block content %}
+{% include 'partials/_messages.html' %}
+
+<div class="container-fluid pt-4 px-4">
+
+    <div class="bg-secondary text-center rounded p-4">
+<div class="bg-secondary card">
+    <div class="row g-0">
+        <div class="col-md-4">
+            <img src="{{pass_info.img.url}}" width="100%" height="100%" />
+        </div>
+        <div class="col-md-8">
+            <div class="bg.secondary card-body">
+                <h5 class="card-title text-body">Passenger Number: {{pass_info.passenger_no}}</h5>
+                <p class="card-text">Username: {{passenger.username}}</p>
+                <p class="card-text">Name: {{passenger.first_name}}</p>
+                <p class="card-text">Surname: {{passenger.last_name}}</p>
+                <p class="card-text">Email: {{passenger.email}}</p>
+                <p class="card-text">Personal Contacts: {{pass_info.p_contacts}}</p>
+                <p class="card-text">Contact Person: {{pass_info.contact_person}}</p>
+                <p class="card-text">Emergency Number: {{pass_info.e_contacts}}</p>
+                <p class="card-text">Date Joined: {{passenger.date_joined}}</p>
+                <p class="card-text">Last Login: {{passenger.last_login}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'owner/base.html' %}
+{% load static %}
+
+{% block title  %}
+Edit Taxi
+{% endblock %}
+
+{% block content %}
+{% include 'partials/_messages.html' %}
+<div class="container-fluid pt-4 px-4">
+
+    <div class="bg-secondary text-center rounded p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+
+            <h6 class="mb-0">Taxi Edit</h6>
+            <a href="{% url 'delete-taxi' taxi.id %}" class="btn btn-primary">Delete</a>
+
+        </div>
+
+        <form action="" method="post">
+            {% csrf_token %}
+            {% include 'partials/_messages.html' %}
+            <div class="form-floating mb-3">
+
+                <input type="text" value="{{taxi.no_plate}}" name="numplate" class="form-control" id="floatingText" placeholder="jhondoe" required>
+
+                <label for="floatingText">Number Plate</label>
+
+            </div>
+            <div class="form-floating mb-3">
+
+                <input type="text" value="{{taxi.model}}" name="model" class="form-control" id="floatingText" placeholder="jhondoe" required>
+
+                <label for="floatingText">Model</label>
+
+            </div>
+            <div class="form-floating mb-3">
+
+                <input type="text" value="{{taxi.color}}" name="color" class="form-control" id="floatingText" placeholder="jhondoe" required>
+
+                <label for="floatingText">Color</label>
+
+            </div>
+            <div class="form-floating mb-3">
+
+                <input type="number" value="{{taxi.seats}}" name="numseats" class="form-control" id="floatingText" placeholder="jhondoe" required>
+
+                <label for="floatingText">Number of Seats</label>
+
+            </div>
+            <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Save</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

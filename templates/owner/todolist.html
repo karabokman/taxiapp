@@ -1,0 +1,76 @@
+{% extends 'owner/base.html' %}
+{% load static %}
+
+{% block title  %}
+To Do List
+{% endblock %}
+
+{% block content %}
+{% include 'partials/_messages.html' %}
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-secondary text-center rounded p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h6 class="mb-0">To Do List</h6>
+        </div>
+        <form action="{% url 'todolist' %}" method="post">
+            {% csrf_token %}
+            <div class="d-flex mb-2">
+                <input class="form-control bg-dark border-0" name="task" type="text" placeholder="Enter task">
+                <button type="submit" class="btn btn-primary ms-2">Add</button>
+            </div>
+        </form>
+        {% if todolist %}
+        {% for todo in todolist %}
+        {% if todo.status == "Not Done" %}
+        <div class="border-bottom py-2">
+            <div class="w-100 ms-3">
+                    <div class="row">
+                        <div class="text-start col-sm-9 col-md-7 col-xl-7">
+                            <span>{{todo.task}}</span>
+                        </div>
+                        <div class="text-start col-sm-2 col-md-2 col-xl-2">
+                            <span>{{todo.date}}</span>
+                        </div>
+                        <div class="col-sm-1 col-md-1 col-xl-1">
+                            <a href="{% url 'mark-task' todo.id %}" class="btn btn-primary ms-2">Check</a>
+                        </div>
+                        <div class="col-sm-1 col-md-1 col-xl-1">
+                            <a href="{% url 'delete-task' todo.id %}" class="btn btn-primary ms-2">Delete</a>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="border-bottom py-2">
+            <div class="w-100 ms-3">
+                <div class="row">
+                    <div class="text-start col-sm-10 col-md-7 col-xl-7">
+                        <span><del>{{todo.task}}</del></span>
+                    </div>
+                        <div class="text-start col-sm-2 col-md-2 col-xl-2">
+                            <span>{{todo.date}}</span>
+                        </div>
+                        <div class="col-sm-1 col-md-1 col-xl-1">
+                            <a href="{% url 'mark-task' todo.id %}" class="btn btn-primary ms-2">Check</a>
+                        </div>
+                        <div class="col-sm-1 col-md-1 col-xl-1">
+                            <a href="{% url 'delete-task' todo.id %}" class="btn btn-primary ms-2">Delete</a>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% else %}
+        <div class="d-flex align-items-center border-bottom py-2">
+            <div class="w-100 ms-3">
+                <div class="d-flex w-100 align-items-center justify-content-between">
+                    <span>No items in To Do List</span>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

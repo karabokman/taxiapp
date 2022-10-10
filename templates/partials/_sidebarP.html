@@ -1,0 +1,49 @@
+<div class="sidebar pe-4 pb-3">
+
+            <nav class="navbar bg-secondary navbar-dark">
+
+                <a href="index.html" class="navbar-brand mx-4 mb-3">
+
+                    <h3 class="text-primary"><i class="fa fa-user-edit me-2"></i>TaxiApp</h3>
+
+                </a>
+
+                <div class="d-flex align-items-center ms-4 mb-4">
+
+                    <div class="position-relative">
+
+                        <img class="rounded-circle" src="{{passenger.img.url}}" alt="" style="width: 40px; height: 40px;">
+
+                        <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
+
+                    </div>
+
+                    <div class="ms-3">
+
+                        <h6 class="mb-0">{{user.first_name}} {{user.last_name}}</h6>
+
+                        <span>Passenger</span>
+
+                    </div>
+
+                </div>
+
+                <div class="navbar-nav w-100">
+
+                    <a href="{% url 'passenger' %}" class="nav-item nav-link">Dashboard</a>
+
+                    <a href="{% url 'profile' %}" class="nav-link nav-link">Profile</a>
+
+                    <a href="{% url 'destinations' %}" class="nav-item nav-link">Available Destinations</a>
+
+
+                    <a href="{% url 'history' %}" class="nav-item nav-link">History</a>
+
+                    <a href="{% url 'hire-taxi' %}" class="nav-item nav-link">Hire Taxi</a>
+
+                    <a href="{% url 'logout' %}" class="nav-item nav-link">Log Out</a>
+                </div>
+
+            </nav>
+
+</div>

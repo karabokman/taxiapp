@@ -1,0 +1,65 @@
+{% extends 'owner/base.html' %}
+{% load static %}
+
+{% block title  %}
+View Hire Request
+{% endblock %}
+
+{% block content %}
+{% include 'partials/_messages.html' %}
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-secondary rounded p-4">
+        <h6 class="mb-4">Hire Request</h6>
+        <dl class="row mb-0">
+            <dt class="col-sm-4">Request Number</dt>
+            <dd class="col-sm-8">{{hireRequest.reference}}</dd>
+            <dt class="col-sm-4">Passenger Number</dt>
+            <dd class="col-sm-8">{{hireRequest.passenger.passenger_no}}</dd>
+            <dt class="col-sm-4">Full name</dt>
+            <dd class="col-sm-8">{{hireRequest.passenger.user.first_name}} {{hireRequest.passenger.user.last_name}}</dd>
+            <dt class="col-sm-4">Contacts</dt>
+            <dd class="col-sm-8">{{hireRequest.passenger.p_contacts}}</dd>
+            <dt class="col-sm-4">Email</dt>
+            <dd class="col-sm-8">{{hireRequest.passenger.user.email}}</dd>
+            <dt class="col-sm-4">Made</dt>
+            <dd class="col-sm-8">{{hireRequest.date}}</dd>
+            <dt class="col-sm-4">For</dt>
+            <dd class="col-sm-8">{{hireRequest.For}}</dd>
+            <dt class="col-sm-4">Number of Days</dt>
+            <dd class="col-sm-8">{{hireRequest.no_days}}</dd>
+            <dt class="col-sm-4">Status</dt>
+            <dd class="col-sm-8">{{hireRequest.status}}</dd>
+        </dl>
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="form-floating mb-3">
+        <select name="driver" class="form-select" id="floatingSelect"
+                aria-label="Floating label select example">
+            {% if myDriver %}
+            <option selected>{{myDriver.driver_no}} - {{myDriver.user.first_name}} {{myDriver.user.last_name}}</option>
+            {% endif %}
+            {% for driver in drivers %}
+            {% if myDriver != driver %}
+            <option>{{driver.user.username}} - {{driver.user.first_name}} {{driver.user.last_name}}</option>
+            {% endif %}
+            {% endfor %}
+        </select>
+        <label for="floatingSelect">Driver</label>
+    </div>
+        <div class="input-group mb-3">
+            {% if transaction %}
+            <input class="btn btn-primary" value="Amount"></input>
+            {% endif %}
+        <input type="number" value="{{transaction.amount}}" name="amount" class="form-control" placeholder="Amount"
+               aria-label="Passenger Number" aria-describedby="basic-addon2" required>
+            {% if transaction == None %}
+        <button type="submit" class="btn btn-primary">Accept Request</button>
+            {% endif %}
+    </div>
+        </form>
+        <a class="btn btn-sm btn-primary" href="{% url 'delete-request' hireRequest.id %}">Delete</a>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'owner/base.html' %}
+{% load static %}
+
+{% block title  %}
+Add Driver
+{% endblock %}
+
+{% block content %}
+
+<div class="bg-secondary rounded p-4 p-sm-5 my-4 mx-3">
+<form action="{% url 'add-driver' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% include 'partials/_messages.html' %}
+        <div class="d-flex align-items-center justify-content-between mb-4">
+
+            <h6 class="mb-0">Add Driver</h6>
+
+        </div>
+    <div class="mb-3">
+        <label for="formFile" class="form-label">Profile image</label>
+        <input class="form-control bg-dark" name="image" type="file" id="formFile">
+    </div>
+    <div class="form-floating mb-3">
+
+        <input type="text" name="name" class="form-control" id="floatingText" placeholder="jhondoe" required>
+
+        <label for="floatingText">Name</label>
+
+    </div>
+    <div class="form-floating mb-3">
+
+        <input type="text" name="surname" class="form-control" id="floatingText" placeholder="jhondoe" required>
+
+        <label for="floatingText">Surname</label>
+
+    </div>
+    <div class="form-floating mb-3">
+
+        <input type="text" name="contacts" class="form-control" id="floatingText" placeholder="jhondoe" required>
+
+        <label for="floatingText">Contacts</label>
+
+    </div>
+    <div class="form-floating mb-3">
+        <select name="taxi" class="form-select" id="floatingSelect"
+                aria-label="Floating label select example">
+            {% for taxi in taxis %}
+            <option >{{taxi.no_plate}}</option>
+            {% endfor %}
+        </select>
+        <label for="floatingSelect">Taxi</label>
+    </div>
+    <div class="form-floating mb-4">
+
+        <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password" required>
+
+        <label for="floatingPassword">Password</label>
+
+    </div>
+
+    <div class="form-floating mb-4">
+
+        <input type="password" name="password1" class="form-control" id="floatingPassword" placeholder="Confirm Password" required>
+
+        <label for="floatingPassword">Confirm Password</label>
+
+    </div>
+
+    <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Add</button>
+</form>
+</div>
+
+
+{% endblock %}

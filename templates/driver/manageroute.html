@@ -1,0 +1,191 @@
+{% extends 'driver/base.html' %}
+{% load static %}
+
+{% block title  %}
+Manage route
+{% endblock %}
+
+{% block content %}
+
+{% include 'partials/_messages.html' %}
+<!-- Driver Info Start -->
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-secondary rounded p-4">
+        <h6 class="mb-4">Destination Information</h6>
+        <dl class="row mb-0">
+            <dt class="col-sm-4">Destination Number</dt>
+            <dd class="col-sm-8">{{route.ride_no}}</dd>
+            <dt class="col-sm-4">From</dt>
+            <dd class="col-sm-8">{{route.d_from}}</dd>
+            <dt class="col-sm-4">To</dt>
+            <dd class="col-sm-8">{{route.d_to}}</dd>
+            {% if driver.driver_no == route.driver_no %}
+            {% if transact == None %}
+            <dt class="col-sm-4">Available Seats</dt>
+            <dd class="col-sm-8">{{numSeats}}</dd>
+            {% endif %}
+            {% endif %}
+            {% if driver.driver_no != route.driver_no %}
+            <dt class="col-sm-4">Driver</dt>
+            <dd class="col-sm-8">{{route.driver_no}}</dd>
+            {% endif %}
+        </dl>
+        {% if driver.driver_no == route.driver_no %}
+        <form action="{% url 'add-transact' route.id %}" method="post">
+            {% csrf_token %}
+        <div class="input-group mb-3">
+            {% if transact %}
+            <input class="btn btn-info" value="Amount"></input>
+            {% endif %}
+        <input type="number" value="{{transact.amount}}" name="amount" class="form-control" placeholder="Amount"
+               aria-label="Passenger Number" aria-describedby="basic-addon2" required>
+            {% if transact == None %}
+        <button type="submit" class="btn btn-primary">Mark Complete</button>
+            {% endif %}
+    </div>
+        </form>
+        {% if transact == None %}
+        <a class="btn btn-sm btn-primary" href="{% url 'delete-route' route.id %}">Delete</a>
+        {% endif %}
+        {% endif %}
+    </div>
+
+</div>
+{% if driver.driver_no == route.driver_no %}
+{% if transact == None %}
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-secondary rounded p-4">
+        <form action="{% url 'add-registered' route.id %}" method="post">
+            {% csrf_token %}
+        <label class="form-label">Add Registered Passenger</label>
+    <div class="input-group mb-3">
+        <input type="text" name="passenger" class="form-control" placeholder="Passenger Number"
+               aria-label="Passenger Number" aria-describedby="basic-addon2" required>
+        <button type="submit" class="btn btn-primary">Add</button>
+    </div>
+        </form>
+
+    </div>
+</div>
+{% endif %}
+<div class="container-fluid pt-4 px-4">
+
+    <div class="bg-secondary text-center rounded p-4">
+
+        <div class="d-flex align-items-center justify-content-between mb-4">
+
+            <h6 class="mb-0">Passengers in the Taxi</h6>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table text-start align-middle table-bordered table-hover mb-0">
+
+                <thead>
+
+                <tr class="text-white">
+
+                    <th scope="col">Passenger Number</th>
+
+                    <th scope="col">Name</th>
+
+                    <th scope="col">Surname</th>
+
+                    <th scope="col">Personal Contacts</th>
+
+                    <th scope="col">Contact Person</th>
+
+                    <th scope="col">Emergency Contacts</th>
+                    {% if transact == None %}
+                    <th scope="col">Action</th>
+                    {% endif %}
+                </tr>
+
+                </thead>
+                {% if passengers %}
+                <tbody>
+                {% for passenger in passengers %}
+                <tr>
+
+                    <td>{{passenger.passenger_no}}</td>
+
+                    <td>{{passenger.name}}</td>
+
+                    <td>{{passenger.surname}}</td>
+
+                    <td>{{passenger.p_contacts}}</td>
+
+                    <td>{{passenger.contact_person}}</td>
+
+                    <td>{{passenger.e_contacts}}</td>
+                    {% if transact == None %}
+                    <td><a class="btn btn-sm btn-primary" href="{% url 'remove-passenger' passenger.id %}">Remove</a></td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+                </tbody>
+                {% endif %}
+
+            </table>
+        </div>
+    </div>
+
+</div>
+{% if transact == None %}
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-secondary text-center rounded p-4">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+
+            <h6 class="mb-0">Add Unregistered Passenger</h6>
+
+        </div>
+<form action="{% url 'manage-route' route.id %}" method="post">
+    {% csrf_token %}
+    <div class="form-floating mb-3">
+
+        <input type="text" name="name" class="form-control" id="floatingText" placeholder="jhondoe" required>
+
+        <label for="floatingText">Name</label>
+
+    </div>
+
+    <div class="form-floating mb-3">
+
+        <input type="text" name="surname" class="form-control" id="floatingText" placeholder="jhondoe" required>
+
+        <label for="floatingText">Surname</label>
+
+    </div>
+
+    <div class="form-floating mb-3">
+
+        <input type="text" name="pcontact" class="form-control" id="floatingText" placeholder="076-------" required>
+
+        <label for="floatingText">Personal Number</label>
+
+    </div>
+    <div class="form-floating mb-3">
+
+        <input type="text" name="contact-person" class="form-control" id="floatingText" placeholder="John Doe" required>
+
+        <label for="floatingText">Contact Person</label>
+
+    </div>
+
+    <div class="form-floating mb-3">
+
+        <input type="text" name="econtact" class="form-control" id="floatingText" placeholder="076-------" required>
+
+        <label for="floatingText">Emergency Number</label>
+
+    </div>
+
+    <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Add</button>
+</form>
+</div>
+</div>
+{% endif %}
+{% endif %}
+
+{% endblock %}

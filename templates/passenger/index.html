@@ -1,0 +1,106 @@
+{% extends 'passenger/base.html' %}
+{% load static %}
+
+{% block title  %}
+Home
+{% endblock %}
+
+{% block content %}
+{% include 'partials/_messages.html' %}
+<!-- Client Info Start -->
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-secondary rounded p-4">
+        <h6 class="mb-4">My Information</h6>
+        <dl class="row mb-0">
+            <dt class="col-sm-4">Passenger Number</dt>
+            <dd class="col-sm-8">{{passenger.passenger_no}}</dd>
+            <dt class="col-sm-4">Name</dt>
+            <dd class="col-sm-8">{{user.first_name}}</dd>
+            <dt class="col-sm-4">Surname</dt>
+            <dd class="col-sm-8">{{user.last_name}}</dd>
+            <dt class="col-sm-4">Email</dt>
+            <dd class="col-sm-8">{{user.email}}</dd>
+            {% if passenger.p_contacts %}
+            <dt class="col-sm-4">Personal Number</dt>
+            <dd class="col-sm-8">{{passenger.p_contacts}}</dd>
+            <dt class="col-sm-4">Contact Person</dt>
+            <dd class="col-sm-8">{{passenger.contact_person}}</dd>
+            <dt class="col-sm-4">Emergency Number</dt>
+            <dd class="col-sm-8">{{passenger.e_contacts}}</dd>
+            {% else %}
+            <dt class="col-sm-4"><h6>Go to <a href="{% url 'profile' %}">Profile</a> to enter your contacts</h6></dt>
+            {% endif %}
+        </dl>
+    </div>
+</div>
+<!-- Client Info End -->
+
+<!-- Recent destinations Start -->
+
+<div class="container-fluid pt-4 px-4">
+
+    <div class="bg-secondary text-center rounded p-4">
+
+        <div class="d-flex align-items-center justify-content-between mb-4">
+
+            <h6 class="mb-0">Available Routes</h6>
+            <a href="{% url 'destinations'%}">Show All</a>
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table text-start align-middle table-bordered table-hover mb-0">
+
+                <thead>
+
+                <tr class="text-white">
+
+                    <th scope="col">Code</th>
+
+                    <th scope="col">From</th>
+
+                    <th scope="col">To</th>
+
+                    <th scope="col">Driver</th>
+
+                    <th scope="col">Taxi</th>
+
+                    <th scope="col">Action</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for route in routes %}
+
+                <tr>
+
+                    <td>{{route.ride_no}}</td>
+
+                    <td>{{route.d_from}}</td>
+
+                    <td>{{route.d_to}}</td>
+
+                    <td>{{route.driver_no}}</td>
+
+                    <td>{{route.taxi}}</td>
+
+                    <td><a class="btn btn-sm btn-primary" href="{% url 'booking' route.id %}">View</a></td>
+
+                </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Recent destinations End -->
+
+{% endblock %}

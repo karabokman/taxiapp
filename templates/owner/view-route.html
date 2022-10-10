@@ -1,0 +1,64 @@
+{% extends 'owner/base.html' %}
+{% load static %}
+
+{% block title  %}
+View Route
+{% endblock %}
+
+{% block content %}
+{% include 'partials/_messages.html' %}
+
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-secondary rounded p-4">
+        <dl class="row mb-0">
+            <dt class="col-sm-4">Code</dt>
+            <dd class="col-sm-8">{{route.ride_no}}</dd>
+            <dt class="col-sm-4">Created on</dt>
+            <dd class="col-sm-8">{{route.date}}</dd>
+            <dt class="col-sm-4">Status</dt>
+            <dd class="col-sm-8">{{route.status}}</dd>
+        </dl>
+    </div>
+</div>
+
+
+ <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <label for="" class="form-label">Driver Information</label>
+                        <div>
+                            <img width="120" height="120" src="{{d_img.img.url}}"/>
+                            <h5>Name: {{driver.first_name}}</h5>
+                            <h5>Surname: {{driver.last_name}}</h5>
+                            <h5>Driver Number: {{driver.username}}</h5>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-secondary rounded h-100 p-4 ">
+                            <label for="" class="form-label">Taxi Information</label>
+                            <div class="h-10 p-4"></div>
+                        <div>
+                            <h5>Number plate: {{taxi.no_plate}}</h5>
+                            <h5>Model: {{taxi.model}}</h5>
+                            <h5>Color: {{taxi.color}}</h5>
+                        </div>
+
+                        </div>
+                    </div>
+                </div>
+ </div>
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-secondary rounded p-4">
+        <dl class="row mb-0">
+            <dt class="col-sm-4">Destination From</dt>
+            <dd class="col-sm-8">{{route.d_from}}</dd>
+            <dt class="col-sm-4">Destination To</dt>
+            <dd class="col-sm-8">{{route.d_to}}</dd>
+        </dl>
+    </div>
+</div>
+
+
+{% endblock %}
